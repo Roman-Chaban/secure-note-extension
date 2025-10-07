@@ -1,5 +1,3 @@
-@import url("variables.css");
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,17 +6,19 @@
 
 html,
 body {
-  font-family: var(--font-main);
-  width: var(--popup-width);
-  height: var(--popup-height);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  width: 360px;
+  height: 500px;
   overflow: hidden;
 }
 
 body {
-  background: var(--color-gradient-header);
-  color: var(--color-text-main);
-  font-size: var(--font-size-preview);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #333;
+  font-size: 14px;
   line-height: 1.5;
+  min-width: 360px;
+  min-height: 500px;
 }
 
 .popup-container {
@@ -29,11 +29,14 @@ body {
 }
 
 .popup-header {
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: var(--secure-modal-border);
-  padding: var(--secure-header-padding);
+  background: var(--glass-header-bg, rgba(255, 255, 255, 0.25));
+  backdrop-filter: var(--glass-backdrop-blur, blur(20px));
+  -webkit-backdrop-filter: var(--glass-backdrop-blur, blur(20px));
+  border-bottom: var(
+    --secure-modal-border,
+    1px solid rgba(255, 255, 255, 0.18)
+  );
+  padding: var(--secure-header-padding, 16px 18px);
   text-align: center;
 }
 
@@ -41,21 +44,21 @@ body {
   color: var(--color-text-btn);
   font-size: var(--secure-header-font-size);
   font-weight: var(--secure-header-font-weight);
-  margin-bottom: 8px;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  margin-bottom: var(--popup-title-margin-bottom);
+  text-shadow: var(--text-shadow-popup-title);
 }
 
 .domain-name {
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--color-domain-text);
   font-size: var(--font-size-meta);
   font-weight: var(--font-weight-btn);
-  background: rgba(255, 255, 255, 0.2);
-  padding: 4px 12px;
-  border-radius: 24px;
+  background: var(--glass-domain-bg);
+  padding: var(--domain-padding);
+  border-radius: var(--domain-border-radius);
   display: inline-block;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  max-width: 320px;
+  border: var(--glass-domain-border);
+  backdrop-filter: var(--glass-domain-blur);
+  max-width: var(--domain-max-width);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -63,7 +66,7 @@ body {
 
 .popup-main {
   flex: 1;
-  background: linear-gradient(180deg, #ffffff 0%, var(--color-bg) 100%);
+  background: var(--popup-main-bg);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -94,7 +97,7 @@ body {
 .search-input:focus {
   outline: none;
   border-color: var(--secure-textarea-focus-border);
-  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+  box-shadow: var(--focus-box-shadow);
 }
 
 .search-input::placeholder {
@@ -112,8 +115,8 @@ body {
   font-size: var(--font-size-header);
   font-weight: var(--secure-btn-font-weight);
   transition: var(--transition-btn);
-  width: 32px;
-  height: 32px;
+  width: var(--export-btn-width);
+  height: var(--export-btn-height);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -134,7 +137,7 @@ body {
 
 .note-textarea {
   width: 100%;
-  min-height: 120px;
+  min-height: var(--textarea-min-height);
   padding: var(--space-btn-x) var(--space-main);
   border: 2px solid var(--color-border);
   border-radius: var(--border-radius-note);
@@ -142,7 +145,7 @@ body {
   font-size: var(--font-size-textarea);
   line-height: 1.5;
   resize: var(--resize-secure-note-textarea);
-  transition: all 0.25s ease;
+  transition: var(--transition-all-fast);
   background: var(--secure-textarea-bg);
   color: var(--secure-textarea-color);
   outline: none;
@@ -155,7 +158,7 @@ body {
 
 .note-textarea:focus {
   border-color: var(--secure-textarea-focus-border);
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), var(--shadow-note);
+  box-shadow: 0 0 0 3px var(--focus-shadow-color), var(--shadow-note);
   transform: translateY(-1px);
 }
 
@@ -187,7 +190,7 @@ body {
 }
 
 .add-note-btn:disabled {
-  background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+  background: var(--gradient-disabled);
   cursor: not-allowed;
   transform: none;
   box-shadow: var(--shadow-note);
@@ -224,7 +227,7 @@ body {
 .notes-list::-webkit-scrollbar-thumb {
   background: var(--secure-btn-bg);
   border-radius: var(--scrollbar-radius);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: var(--gradient-scrollbar-border);
 }
 
 .notes-list::-webkit-scrollbar-thumb:hover {
@@ -248,18 +251,18 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 4px;
+  width: var(--note-item-border-width);
   height: 100%;
   background: var(--secure-btn-bg);
   transform: scaleY(0);
-  transition: transform 0.25s ease;
+  transition: var(--transition-transform);
   transform-origin: bottom;
 }
 
 .note-item:hover {
   border-color: var(--secure-textarea-focus-border);
   box-shadow: var(--shadow-main);
-  transform: translateY(-2px);
+  transform: translateY(var(--note-item-hover-translate));
 }
 
 .note-item:hover::before {
@@ -276,7 +279,7 @@ body {
   align-items: center;
   margin-bottom: var(--space-gap-main);
   padding-bottom: var(--margin-meta-bottom);
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--color-gray-100);
 }
 
 .note-timestamp {
@@ -285,7 +288,7 @@ body {
   font-weight: var(--font-weight-btn);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-family: Monaco, "Cascadia Code", "Roboto Mono", monospace;
+  font-family: Monaco, Cascadia Code, Roboto Mono, monospace;
 }
 
 .note-delete {
@@ -386,7 +389,7 @@ body {
 }
 
 .empty-state {
-  background: linear-gradient(135deg, var(--color-bg) 0%, #f1f5f9 100%);
+  background: var(--gradient-empty-state);
 }
 
 .empty-state::after {
@@ -402,10 +405,10 @@ body {
   color: var(--color-bg-delete);
   padding: 24px;
   font-size: var(--font-size-btn);
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  background: var(--gradient-error-state);
   border-radius: var(--border-radius-note);
   margin: var(--space-note-y);
-  border: 1px solid #fecaca;
+  border: 1px solid var(--color-red-300);
   box-shadow: var(--shadow-note);
   position: relative;
 }
@@ -457,10 +460,10 @@ body {
 }
 
 .popup-header {
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--color-white-alpha-25);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom: 1px solid var(--color-white-alpha-18);
   padding: 16px;
   text-align: center;
 }
@@ -470,18 +473,18 @@ body {
   font-size: 18px;
   font-weight: 700;
   margin-bottom: 8px;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  text-shadow: 0 1px 3px var(--color-black-alpha-12);
 }
 
 .domain-name {
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--color-white-alpha-95);
   font-size: 11px;
   font-weight: 500;
-  background: rgba(255, 255, 255, 0.2);
+  background: var(--color-white-alpha-20);
   padding: 4px 12px;
   border-radius: 24px;
   display: inline-block;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-white-alpha-10-border);
   backdrop-filter: blur(10px);
   max-width: 240px;
   overflow: hidden;
@@ -491,7 +494,7 @@ body {
 
 .popup-main {
   flex: 1;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  background: var(--gradient-main-background);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -511,28 +514,28 @@ body {
 .search-input {
   flex: 1;
   padding: 8px 12px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-gray-200);
   border-radius: 8px;
   font-size: 12px;
   transition: all 0.25s ease;
-  background: white;
-  color: #1f2937;
+  background: var(--color-white);
+  color: var(--color-gray-800);
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+  border-color: var(--color-indigo-500);
+  box-shadow: 0 0 0 2px var(--color-indigo-alpha-10);
 }
 
 .search-input::placeholder {
-  color: #9ca3af;
+  color: var(--color-gray-400);
   font-style: italic;
 }
 
 .export-btn {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  color: white;
+  background: var(--gradient-export-btn);
+  color: var(--color-white);
   border: none;
   padding: 8px;
   border-radius: 8px;
@@ -555,7 +558,7 @@ body {
 
 .add-note-section {
   padding: 16px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--color-gray-200);
   background: white;
 }
 
@@ -563,33 +566,33 @@ body {
   width: 100%;
   min-height: 72px;
   padding: 12px 16px;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--color-gray-200);
   border-radius: 12px;
   font-family: inherit;
   font-size: 13px;
   line-height: 1.5;
   resize: none;
   transition: all 0.25s ease;
-  background: #ffffff;
-  color: #1f2937;
+  background: var(--color-white);
+  color: var(--color-gray-800);
   outline: none;
 }
 
 .note-textarea::placeholder {
-  color: #9ca3af;
+  color: var(--color-gray-400);
   font-style: italic;
 }
 
 .note-textarea:focus {
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1),
+  border-color: var(--color-indigo-500);
+  box-shadow: 0 0 0 3px var(--color-indigo-alpha-10),
     0 4px 6px -1px rgb(0 0 0 / 0.1);
   transform: translateY(-1px);
 }
 
 .add-note-btn {
   width: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-primary-btn);
   color: white;
   border: none;
   padding: 12px 24px;
@@ -614,7 +617,7 @@ body {
 }
 
 .add-note-btn:disabled {
-  background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+  background: var(--gradient-disabled-btn);
   cursor: not-allowed;
   transform: none;
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -625,7 +628,7 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  background: var(--gradient-card-bg);
 }
 
 .notes-list {
@@ -640,23 +643,23 @@ body {
 }
 
 .notes-list::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--color-black-alpha-05);
   border-radius: 3px;
 }
 
 .notes-list::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #667eea, #764ba2);
+  background: var(--gradient-hover-primary);
   border-radius: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--color-white-alpha-20);
 }
 
 .notes-list::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #5a67d8, #6b46c1);
+  background: var(--gradient-hover-darker);
 }
 
 .note-item {
   background: white;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--color-gray-200);
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 12px;
@@ -673,14 +676,14 @@ body {
   left: 0;
   width: 4px;
   height: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-primary-btn);
   transform: scaleY(0);
   transition: transform 0.25s ease;
   transform-origin: bottom;
 }
 
 .note-item:hover {
-  border-color: #667eea;
+  border-color: var(--color-indigo-500);
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
   transform: translateY(-2px);
 }
@@ -699,12 +702,12 @@ body {
   align-items: center;
   margin-bottom: 8px;
   padding-bottom: 4px;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--color-gray-100);
 }
 
 .note-timestamp {
   font-size: 10px;
-  color: #6b7280;
+  color: var(--color-gray-500);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -712,7 +715,7 @@ body {
 }
 
 .note-delete {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: var(--gradient-delete-btn);
   color: white;
   border: none;
   padding: 4px 8px;
@@ -727,7 +730,7 @@ body {
 }
 
 .note-delete:hover {
-  background: linear-gradient(135deg, #f472b6 0%, #dc2626 100%);
+  background: var(--gradient-delete-hover);
   transform: scale(1.05);
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
@@ -739,7 +742,7 @@ body {
 .note-content {
   font-size: 12px;
   line-height: 1.6;
-  color: #374151;
+  color: var(--color-gray-700);
   word-wrap: break-word;
   cursor: pointer;
   transition: color 0.25s ease;
@@ -747,7 +750,7 @@ body {
 }
 
 .note-content:hover {
-  color: #1f2937;
+  color: var(--color-gray-800);
 }
 
 .note-content.expanded {
@@ -762,7 +765,7 @@ body {
 }
 
 .expand-toggle {
-  color: #667eea;
+  color: var(--color-indigo-500);
   font-size: 10px;
   font-weight: 600;
   cursor: pointer;
@@ -775,7 +778,7 @@ body {
 }
 
 .expand-toggle:hover {
-  color: #5a67d8;
+  color: var(--color-indigo-600);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -783,15 +786,15 @@ body {
 .loading-state,
 .empty-state {
   text-align: center;
-  color: #6b7280;
+  color: var(--color-gray-500);
   font-style: italic;
   padding: 32px 24px;
   font-size: 13px;
   line-height: 1.6;
-  background: linear-gradient(45deg, #f9fafb, #ffffff);
+  background: var(--gradient-light-bg);
   border-radius: 16px;
   margin: 12px;
-  border: 2px dashed #e5e7eb;
+  border: 2px dashed var(--color-gray-200);
   position: relative;
   overflow: hidden;
 }
@@ -804,12 +807,12 @@ body {
   left: -100%;
   width: 100%;
   height: 2px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-primary-btn);
   animation: shimmer 2s infinite;
 }
 
 .empty-state {
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: var(--gradient-secondary-btn);
 }
 
 .empty-state::after {
@@ -822,13 +825,13 @@ body {
 
 .error-state {
   text-align: center;
-  color: #dc2626;
+  color: var(--color-red-600);
   padding: 24px;
   font-size: 12px;
-  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  background: var(--gradient-error-bg);
   border-radius: 12px;
   margin: 12px;
-  border: 1px solid #fecaca;
+  border: 1px solid var(--color-red-200);
   box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   position: relative;
 }
