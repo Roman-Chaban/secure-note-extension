@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secure Notes</title>
+    <link rel="stylesheet" href="./styles/content.css" />
+    <link rel="stylesheet" href="./styles/popup.css" />
+    <script defer src="./scripts/utils.js"></script>
+    <script defer src="./scripts/popup.js"></script>
+  </head>
+  <body>
+    <div class="popup-root">
+      <header class="popup-header">
+        <div class="domain-name" id="domainName">Loading...</div>
+        <div class="header-actions">
+          <button id="refreshBtn" title="Refresh">⟳</button>
+        </div>
+      </header>
+
+      <main class="popup-main" id="notesList"></main>
+
+      <footer class="popup-footer">
+        <textarea
+          id="noteInput"
+          class="secure-note-textarea"
+          placeholder="Write a secure note..."
+          rows="3"
+        ></textarea>
+        <div class="footer-actions">
+          <button id="addNoteBtn" class="secure-note-btn">Add note</button>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
