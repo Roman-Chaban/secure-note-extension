@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
   "name": "Secure Note Extension",
-  "description": "Save encrypted notes tied to specific domains.",
+  "description": "Save encrypted notes tied to specific domains with floating action button and popup interface.",
   "version": "1.0.0",
   "permissions": ["storage", "activeTab", "scripting", "tabs"],
-  "host_permissions": ["<all_urls>"],
-
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "minimum_chrome_version": "90",
   "action": {
     "default_title": "Secure Notes",
     "default_popup": "popup.html",
@@ -15,21 +15,18 @@
       "128": "icon/icon.png"
     }
   },
-
   "icons": {
     "16": "icon/icon.png",
     "48": "icon/icon.png",
     "128": "icon/icon.png"
   },
-
   "background": {
     "service_worker": "background.js"
   },
-
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"],
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["utils.js", "styles.js", "web-components.js", "content.js"],
       "css": ["content.css"],
       "run_at": "document_idle"
     }
