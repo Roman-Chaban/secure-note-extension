@@ -122,9 +122,8 @@
   --transition-delete-btn: background 0.2s ease;
   --transform-btn-hover: translateY(-1px);
 
-  /* Popup */
-  --popup-width: 400px;
-  --popup-height: 400px;
-  --scrollbar-width: 6px;
-  --scrollbar-radius: 3px;
+  --popup-width: 480px;
+  --popup-height: 600px;
+  --scrollbar-width: 8px;
+  --scrollbar-radius: 4px;
 }
