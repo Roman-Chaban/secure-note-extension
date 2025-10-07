@@ -4,8 +4,8 @@ if (window.__secureNoteInjected) {
   try {
     window.__secureNoteInjected = true;
 
-    const DOMAIN = window.location.hostname;
-    let modal = null;
+    const currentDomain = window.location.hostname;
+    let modalElement = null;
 
     // Inject styles using imported function
     if (typeof window.injectStyles === "function") {
@@ -14,239 +14,239 @@ if (window.__secureNoteInjected) {
       console.warn("Secure Note Extension: styles.js not loaded properly");
     }
 
-    const createFab = () => {
-      const fab = document.createElement("button");
-      fab.className = "secure-note-fab";
-      fab.innerHTML = `<svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+    const createFloatingActionButton = () => {
+      const fabButton = document.createElement("button");
+      fabButton.className = "secure-note-fab";
+      fabButton.innerHTML = `<svg width="28" height="28" viewBox="0 0 28 28" fill="none">
       <circle cx="14" cy="14" r="14" fill="none"/>
       <path d="M14 7V21M7 14H21" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
     </svg>`;
-      fab.title = "Add secure note";
-      fab.onclick = showModal;
-      document.body.appendChild(fab);
+      fabButton.title = "Add secure note";
+      fabButton.onclick = openModal;
+      document.body.appendChild(fabButton);
     };
 
-    const showModal = async () => {
-      if (modal) return;
+    const openModal = async () => {
+      if (modalElement) return;
 
-      modal = document.createElement("div");
-      modal.className = "secure-note-injected-modal open";
+      modalElement = document.createElement("div");
+      modalElement.className = "secure-note-injected-modal open";
 
-      const header = document.createElement("div");
-      header.className = "secure-note-modal-header";
-      header.textContent = `Secure Notes for ${DOMAIN}`;
+      const modalHeader = document.createElement("div");
+      modalHeader.className = "secure-note-modal-header";
+      modalHeader.textContent = `Secure Notes for ${currentDomain}`;
 
-      const closeBtn = document.createElement("button");
-      closeBtn.className = "secure-note-close";
-      closeBtn.innerHTML = "&times;";
-      closeBtn.onclick = () => {
-        modal.remove();
-        modal = null;
+      const closeButton = document.createElement("button");
+      closeButton.className = "secure-note-close";
+      closeButton.innerHTML = "&times;";
+      closeButton.onclick = () => {
+        modalElement.remove();
+        modalElement = null;
       };
-      header.appendChild(closeBtn);
+      modalHeader.appendChild(closeButton);
 
-      const body = document.createElement("div");
-      body.className = "secure-note-modal-body";
+      const modalBody = document.createElement("div");
+      modalBody.className = "secure-note-modal-body";
 
-      const notesList = document.createElement("div");
-      notesList.className = "secure-note-list";
+      const notesContainer = document.createElement("div");
+      notesContainer.className = "secure-note-list";
 
-      const textarea = document.createElement("textarea");
-      textarea.className = "secure-note-textarea";
-      textarea.placeholder = "Write a secure note...";
-      setTimeout(() => textarea.focus(), 100);
+      const noteInputTextarea = document.createElement("textarea");
+      noteInputTextarea.className = "secure-note-textarea";
+      noteInputTextarea.placeholder = "Write a secure note...";
+      setTimeout(() => noteInputTextarea.focus(), 100);
 
-      const addBtn = document.createElement("button");
-      addBtn.className = "secure-note-btn";
-      addBtn.textContent = "Add note";
+      const addNoteButton = document.createElement("button");
+      addNoteButton.className = "secure-note-btn";
+      addNoteButton.textContent = "Add note";
 
-      addBtn.onclick = async () => {
-        const text = textarea.value.trim();
-        if (!text) return showTooltip(addBtn, "Please enter a note.");
-        await addNote(text);
-        textarea.value = "";
-        await renderNotes(notesList);
-        textarea.focus();
+      addNoteButton.onclick = async () => {
+        const noteText = noteInputTextarea.value.trim();
+        if (!noteText) return showTooltip(addNoteButton, "Please enter a note.");
+        await saveNote(noteText);
+        noteInputTextarea.value = "";
+        await renderNotesList(notesContainer);
+        noteInputTextarea.focus();
       };
 
-      body.appendChild(notesList);
-      body.appendChild(textarea);
-      body.appendChild(addBtn);
-      modal.appendChild(header);
-      modal.appendChild(body);
-      document.body.appendChild(modal);
+      modalBody.appendChild(notesContainer);
+      modalBody.appendChild(noteInputTextarea);
+      modalBody.appendChild(addNoteButton);
+      modalElement.appendChild(modalHeader);
+      modalElement.appendChild(modalBody);
+      document.body.appendChild(modalElement);
 
-      await renderNotes(notesList);
+      await renderNotesList(notesContainer);
     };
 
-    const showTooltip = (el, msg) => {
-      let tip = el.querySelector(".secure-note-tooltip");
-      if (!tip) {
-        tip = document.createElement("div");
-        tip.className = "secure-note-tooltip";
-        el.appendChild(tip);
+    const showTooltip = (targetElement, message) => {
+      let tooltipElement = targetElement.querySelector(".secure-note-tooltip");
+      if (!tooltipElement) {
+        tooltipElement = document.createElement("div");
+        tooltipElement.className = "secure-note-tooltip";
+        targetElement.appendChild(tooltipElement);
       }
-      tip.textContent = msg;
-      tip.style.opacity = "1";
+      tooltipElement.textContent = message;
+      tooltipElement.style.opacity = "1";
       setTimeout(() => {
-        tip.style.opacity = "0";
+        tooltipElement.style.opacity = "0";
       }, 1800);
     };
 
-    const getNotes = async () => {
+    const fetchNotes = async () => {
       try {
-        const stored = await chrome.storage.local.get("notesByDomain");
-        const map =
-          stored && typeof stored.notesByDomain === "object"
-            ? stored.notesByDomain
+        const storageData = await chrome.storage.local.get("notesByDomain");
+        const notesByDomain =
+          storageData && typeof storageData.notesByDomain === "object"
+            ? storageData.notesByDomain
             : {};
-        return map[DOMAIN] || [];
-      } catch (e) {
-        console.error("Failed to get notes:", e);
+        return notesByDomain[currentDomain] || [];
+      } catch (error) {
+        console.error("Failed to get notes:", error);
         return [];
       }
     };
 
-    const addNote = async (text) => {
-      const note = {
+    const saveNote = async (noteContent) => {
+      const noteObject = {
         content: btoa(
-          new Uint8Array(new TextEncoder().encode(text)).reduce(
+          new Uint8Array(new TextEncoder().encode(noteContent)).reduce(
             (data, byte) => data + String.fromCharCode(byte),
             ""
           )
         ),
-        ts: Date.now(),
+        timestamp: Date.now(),
         id: Date.now() + Math.random().toString(16).slice(2),
       };
-      const stored = await chrome.storage.local.get("notesByDomain");
-      const map = stored.notesByDomain || {};
-      const arr = map[DOMAIN] || [];
-      arr.unshift(note);
-      map[DOMAIN] = arr;
-      await chrome.storage.local.set({ notesByDomain: map });
+      const storageData = await chrome.storage.local.get("notesByDomain");
+      const notesByDomain = storageData.notesByDomain || {};
+      const notesArray = notesByDomain[currentDomain] || [];
+      notesArray.unshift(noteObject);
+      notesByDomain[currentDomain] = notesArray;
+      await chrome.storage.local.set({ notesByDomain });
     };
 
-    const updateNote = async (noteId, newContent) => {
-      const stored = await chrome.storage.local.get("notesByDomain");
-      const map = stored.notesByDomain || {};
-      const notes = map[DOMAIN] || [];
-      const noteIndex = notes.findIndex((n) => n.id === noteId);
+    const updateNoteContent = async (noteId, updatedContent) => {
+      const storageData = await chrome.storage.local.get("notesByDomain");
+      const notesByDomain = storageData.notesByDomain || {};
+      const notesArray = notesByDomain[currentDomain] || [];
+      const noteIndex = notesArray.findIndex((note) => note.id === noteId);
       if (noteIndex !== -1) {
-        notes[noteIndex].content = btoa(
-          new Uint8Array(new TextEncoder().encode(newContent)).reduce(
+        notesArray[noteIndex].content = btoa(
+          new Uint8Array(new TextEncoder().encode(updatedContent)).reduce(
             (data, byte) => data + String.fromCharCode(byte),
             ""
           )
         );
-        notes[noteIndex].ts = Date.now();
-        map[DOMAIN] = notes;
-        await chrome.storage.local.set({ notesByDomain: map });
+        notesArray[noteIndex].timestamp = Date.now();
+        notesByDomain[currentDomain] = notesArray;
+        await chrome.storage.local.set({ notesByDomain });
       }
     };
 
-    const renderNotes = async (container) => {
-      container.innerHTML = "";
-      const notes = await getNotes();
-      if (!notes.length) {
-        const empty = document.createElement("div");
-        empty.className = "secure-note-empty";
-        empty.textContent = "No notes yet. Add your first note!";
-        container.appendChild(empty);
+    const renderNotesList = async (containerElement) => {
+      containerElement.innerHTML = "";
+      const notesArray = await fetchNotes();
+      if (!notesArray.length) {
+        const emptyStateElement = document.createElement("div");
+        emptyStateElement.className = "secure-note-empty";
+        emptyStateElement.textContent = "No notes yet. Add your first note!";
+        containerElement.appendChild(emptyStateElement);
         return;
       }
-      notes.forEach((note) => {
-        const item = document.createElement("div");
-        item.className = "secure-note-note";
+      notesArray.forEach((noteObject) => {
+        const noteItemElement = document.createElement("div");
+        noteItemElement.className = "secure-note-note";
 
-        const decodedBytes = Uint8Array.from(atob(note.content), (c) =>
+        const decodedBytes = Uint8Array.from(atob(noteObject.content), (c) =>
           c.charCodeAt(0)
         );
-        const content = new TextDecoder().decode(decodedBytes);
-        const date = new Date(note.ts).toLocaleString();
+        const noteText = new TextDecoder().decode(decodedBytes);
+        const formattedDate = new Date(noteObject.timestamp).toLocaleString();
 
-        const dateEl = document.createElement("div");
-        dateEl.className = "secure-note-date";
-        dateEl.textContent = date;
+        const dateElement = document.createElement("div");
+        dateElement.className = "secure-note-date";
+        dateElement.textContent = formattedDate;
 
-        const contentEl = document.createElement("div");
-        contentEl.className = "secure-note-content";
-        contentEl.title = "Click to edit";
-        contentEl.textContent = content;
-        contentEl.tabIndex = 0;
+        const contentElement = document.createElement("div");
+        contentElement.className = "secure-note-content";
+        contentElement.title = "Click to edit";
+        contentElement.textContent = noteText;
+        contentElement.tabIndex = 0;
 
         // Edit on click
-        contentEl.addEventListener("click", () => {
-          const editArea = document.createElement("textarea");
-          editArea.className = "secure-note-textarea";
-          editArea.value = content;
-          setTimeout(() => editArea.focus(), 100);
+        contentElement.addEventListener("click", () => {
+          const editTextarea = document.createElement("textarea");
+          editTextarea.className = "secure-note-textarea";
+          editTextarea.value = noteText;
+          setTimeout(() => editTextarea.focus(), 100);
 
-          const saveBtn = document.createElement("button");
-          saveBtn.textContent = "Save";
-          saveBtn.className = "secure-note-btn";
-          saveBtn.onclick = async () => {
-            const newContent = editArea.value.trim();
-            if (!newContent) {
-              showTooltip(saveBtn, "Note cannot be empty.");
+          const saveEditButton = document.createElement("button");
+          saveEditButton.textContent = "Save";
+          saveEditButton.className = "secure-note-btn";
+          saveEditButton.onclick = async () => {
+            const updatedText = editTextarea.value.trim();
+            if (!updatedText) {
+              showTooltip(saveEditButton, "Note cannot be empty.");
               return;
             }
-            await updateNote(note.id, newContent);
-            await renderNotes(container);
+            await updateNoteContent(noteObject.id, updatedText);
+            await renderNotesList(containerElement);
           };
 
-          item.replaceChild(editArea, contentEl);
-          item.appendChild(saveBtn);
+          noteItemElement.replaceChild(editTextarea, contentElement);
+          noteItemElement.appendChild(saveEditButton);
         });
 
         // Actions: Copy, Delete
-        const actions = document.createElement("div");
-        actions.className = "secure-note-actions";
+        const actionsContainer = document.createElement("div");
+        actionsContainer.className = "secure-note-actions";
 
-        const copyBtn = document.createElement("button");
-        copyBtn.textContent = "Copy";
-        copyBtn.className = "secure-note-btn copy";
-        copyBtn.onclick = async () => {
+        const copyButton = document.createElement("button");
+        copyButton.textContent = "Copy";
+        copyButton.className = "secure-note-btn copy";
+        copyButton.onclick = async () => {
           try {
-            await navigator.clipboard.writeText(content);
-            item.classList.add("show-tooltip");
-            let tip = item.querySelector(".secure-note-tooltip");
-            if (!tip) {
-              tip = document.createElement("div");
-              tip.className = "secure-note-tooltip";
-              tip.textContent = "Copied!";
-              item.appendChild(tip);
+            await navigator.clipboard.writeText(noteText);
+            noteItemElement.classList.add("show-tooltip");
+            let tooltipElement = noteItemElement.querySelector(".secure-note-tooltip");
+            if (!tooltipElement) {
+              tooltipElement = document.createElement("div");
+              tooltipElement.className = "secure-note-tooltip";
+              tooltipElement.textContent = "Copied!";
+              noteItemElement.appendChild(tooltipElement);
             }
-            tip.textContent = "Copied!";
-            setTimeout(() => item.classList.remove("show-tooltip"), 1200);
+            tooltipElement.textContent = "Copied!";
+            setTimeout(() => noteItemElement.classList.remove("show-tooltip"), 1200);
           } catch {
-            showTooltip(copyBtn, "Copy failed");
+            showTooltip(copyButton, "Copy failed");
           }
         };
 
-        const delBtn = document.createElement("button");
-        delBtn.textContent = "Delete";
-        delBtn.className = "secure-note-btn delete";
-        delBtn.onclick = async () => {
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.className = "secure-note-btn delete";
+        deleteButton.onclick = async () => {
           if (!confirm("Delete this note?")) return;
-          const stored = await chrome.storage.local.get("notesByDomain");
-          const map = stored.notesByDomain || {};
-          map[DOMAIN] = map[DOMAIN].filter((n) => n.id !== note.id);
-          await chrome.storage.local.set({ notesByDomain: map });
-          await renderNotes(container);
+          const storageData = await chrome.storage.local.get("notesByDomain");
+          const notesByDomain = storageData.notesByDomain || {};
+          notesByDomain[currentDomain] = notesByDomain[currentDomain].filter((note) => note.id !== noteObject.id);
+          await chrome.storage.local.set({ notesByDomain });
+          await renderNotesList(containerElement);
         };
 
-        actions.appendChild(copyBtn);
-        actions.appendChild(delBtn);
+        actionsContainer.appendChild(copyButton);
+        actionsContainer.appendChild(deleteButton);
 
-        item.appendChild(dateEl);
-        item.appendChild(contentEl);
-        item.appendChild(actions);
+        noteItemElement.appendChild(dateElement);
+        noteItemElement.appendChild(contentElement);
+        noteItemElement.appendChild(actionsContainer);
 
-        container.appendChild(item);
+        containerElement.appendChild(noteItemElement);
       });
     };
 
-    createFab();
+    createFloatingActionButton();
   } catch (error) {
     console.error("Secure Note Extension initialization failed:", error);
   }
