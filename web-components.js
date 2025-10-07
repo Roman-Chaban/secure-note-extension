@@ -80,7 +80,7 @@ class SecureNoteElement extends HTMLElement {
                 :host {
                     display: block;
                     background: white;
-                    border: 1px solid #e5e7eb;
+                    border: 1px solid var(--color-gray-200);
                     border-radius: 12px;
                     padding: 16px;
                     margin-bottom: 12px;
@@ -96,15 +96,15 @@ class SecureNoteElement extends HTMLElement {
                     left: 0;
                     width: 4px;
                     height: 100%;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: var(--gradient-primary-btn);
                     transform: scaleY(0);
                     transition: transform 0.3s ease;
                     transform-origin: bottom;
                 }
 
                 :host(:hover) {
-                    border-color: #667eea;
-                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+                    border-color: var(--color-indigo-500);
+                    box-shadow: var(--shadow-main);
                     transform: translateY(-2px);
                 }
 
@@ -118,12 +118,12 @@ class SecureNoteElement extends HTMLElement {
                     align-items: center;
                     margin-bottom: 8px;
                     padding-bottom: 6px;
-                    border-bottom: 1px solid #f3f4f6;
+                    border-bottom: 1px solid var(--color-gray-100);
                 }
 
                 .note-timestamp {
                     font-size: 10px;
-                    color: #6b7280;
+                    color: var(--color-gray-500);
                     font-weight: 500;
                     text-transform: uppercase;
                     letter-spacing: 0.05em;
@@ -149,27 +149,27 @@ class SecureNoteElement extends HTMLElement {
                 }
 
                 .btn-expand {
-                    color: #667eea;
+                    color: var(--color-indigo-500);
                 }
 
                 .btn-expand:hover {
-                    background: #667eea;
+                    background: var(--color-indigo-500);
                     color: white;
                 }
 
                 .btn-delete {
-                    color: #ef4444;
+                    color: var(--color-red-500);
                 }
 
                 .btn-delete:hover {
-                    background: #ef4444;
+                    background: var(--color-red-500);
                     color: white;
                 }
 
                 .note-content {
                     font-size: 13px;
                     line-height: 1.5;
-                    color: #1f2937;
+                    color: var(--color-gray-800);
                     word-wrap: break-word;
                     white-space: pre-wrap;
                 }
