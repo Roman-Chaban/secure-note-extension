@@ -1,4 +1,4 @@
-// DOM elements for UI interaction
+// Search popup elements by only id
 const $domainNameLabel = document.getElementById("domainName");
 const $notesContainer = document.getElementById("notesList");
 const $addNoteButton = document.getElementById("addNoteBtn");
@@ -65,6 +65,7 @@ const saveNoteToStorage = async (note) => {
   const notes = Array.isArray(notesByDomain[currentDomain])
     ? notesByDomain[currentDomain]
     : [];
+
   notes.unshift(note);
   notesByDomain[currentDomain] = notes;
   await chrome.storage.local.set({ notesByDomain });
@@ -79,9 +80,11 @@ const updateNoteInStorage = async (noteId, newContent) => {
   const { notesByDomain = {} } = await chrome.storage.local.get(
     "notesByDomain"
   );
+
   const notes = Array.isArray(notesByDomain[currentDomain])
     ? notesByDomain[currentDomain]
     : [];
+
   const noteIndex = notes.findIndex((n) => n.id === noteId);
   if (noteIndex !== -1) {
     notes[noteIndex].content = encodeNoteContent(newContent);
@@ -316,14 +319,14 @@ $exportNotesButton?.addEventListener(
     });
 
     const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `secure-notes-${currentDomain}-${
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `secure-notes-${currentDomain}-${
       new Date().toISOString().split("T")[0]
     }.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
     URL.revokeObjectURL(url);
   })
 );
