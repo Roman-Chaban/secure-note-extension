@@ -1,73 +1,121 @@
-/**
- * Utility functions for secure note operations.
- * @namespace secureNoteUtils
- */
+const encryptText = (plainText) => {
+  try {
+    return btoa(unescape(encodeURIComponent(plainText)));
+  } catch (error) {
+    console.error("Error encrypting text:", error);
+    return plainText;
+  }
+};
 
-/**
- * Encodes a string to Base64 format using UTF-8 encoding.
- * @function
- * @memberof secureNoteUtils
- * @param {string} plainText - The text to encode.
- * @returns {string} The Base64 encoded string.
- */
+const decryptText = (encodedText) => {
+  try {
+    return decodeURIComponent(escape(atob(encodedText)));
+  } catch (error) {
+    console.error("Error decrypting text:", error);
+    return "[Corrupted note]";
+  }
+};
 
-/**
- * Decodes a Base64 string to its original UTF-8 format.
- * @function
- * @memberof secureNoteUtils
- * @param {string} encodedText - The Base64 encoded string.
- * @returns {string} The decoded plain text.
- */
+const generateUniqueId = () => {
+  const timestamp = Date.now().toString(36);
+  const randomPart = Math.random().toString(36).substring(2);
+  return `note_${timestamp}_${randomPart}`;
+};
 
-/**
- * Generates a unique identifier using the current timestamp and cryptographically secure random values.
- * @function
- * @memberof secureNoteUtils
- * @returns {string} A unique identifier string.
- */
+const formatTimestamp = (timestamp) => {
+  const date = new Date(timestamp);
+  const options = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  };
+  return date.toLocaleString("en-US", options);
+};
 
-/**
- * Formats a timestamp into a human-readable local date and time string.
- * @function
- * @memberof secureNoteUtils
- * @param {number|string|Date} timestamp - The timestamp to format.
- * @returns {string} The formatted date and time string.
- */
+const sanitizeHtml = (text) => {
+  const div = document.createElement("div");
+  div.textContent = text;
+  return div.innerHTML;
+};
 
-/**
- * Updates a note by domain and noteId with new content.
- * @function
- * @memberof secureNoteUtils
- * @param {string} domain - The domain of the note.
- * @param {string} noteId - The ID of the note to update.
- * @param {string} newContent - The new content for the note.
- * @returns {Promise<void>}
- */
-window.secureNoteUtils = {
-  encodeContent: (txt) => btoa(unescape(encodeURIComponent(txt))),
-  decodeContent: (txt) => {
-    try {
-      return decodeURIComponent(escape(atob(txt)));
-    } catch {
-      return "[Corrupted note]";
+const truncateText = (text, maxLength = 100) => {
+  if (text.length <= maxLength) return text;
+  return text.substring(0, maxLength).trim() + "...";
+};
+
+const validateNoteContent = (content) => {
+  if (typeof content !== "string") {
+    throw new Error("Note content must be a string");
+  }
+
+  if (content.length > 10000) {
+    throw new Error("Note content too long (max 10,000 characters)");
+  }
+
+  if (content.trim().length === 0) {
+    throw new Error("Note content cannot be empty");
+  }
+
+  const sanitized = content
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+    .replace(/javascript:/gi, "")
+    .replace(/on\w+\s*=/gi, "");
+
+  return sanitized.trim();
+};
+
+const validateDomain = (domain) => {
+  if (typeof domain !== "string") {
+    return false;
+  }
+
+  const domainRegex = /^[a-zA-Z0-9][a-zA-Z0-9-._]*[a-zA-Z0-9]$/;
+  return domainRegex.test(domain) && domain.length <= 253;
+};
+
+const rateLimiter = {
+  operations: new Map(),
+
+  canPerform(operation, maxPerMinute = 30) {
+    const now = Date.now();
+    const operationHistory = this.operations.get(operation) || [];
+
+    const recentOps = operationHistory.filter((time) => now - time < 60000);
+
+    if (recentOps.length >= maxPerMinute) {
+      return false;
     }
-  },
-  generateId: () =>
-    Date.now().toString(36) +
-    "-" +
-    crypto.getRandomValues(new Uint32Array(2)).join(""),
-  formatTimestamp: (ts) => new Date(ts).toLocaleString(),
-  updateNote: async (domain, noteId, newContent) => {
-    const stored = await chrome.storage.local.get("notesByDomain");
-    const map = stored.notesByDomain || {};
-    const notes = map[domain] || [];
-    const noteIndex = notes.findIndex((n) => n.id === noteId);
-    if (noteIndex !== -1) {
-      notes[noteIndex].content =
-        window.secureNoteUtils.encodeContent(newContent);
-      notes[noteIndex].ts = Date.now();
-      map[domain] = notes;
-      await chrome.storage.local.set({ notesByDomain: map });
-    }
+
+    recentOps.push(now);
+    this.operations.set(operation, recentOps);
+    return true;
   },
 };
+
+if (typeof window !== "undefined") {
+  // Export individual functions to global scope for backward compatibility
+  window.encryptText = encryptText;
+  window.decryptText = decryptText;
+  window.generateUniqueId = generateUniqueId;
+  window.formatTimestamp = formatTimestamp;
+  window.sanitizeHtml = sanitizeHtml;
+  window.truncateText = truncateText;
+  window.validateNoteContent = validateNoteContent;
+  window.validateDomain = validateDomain;
+
+  // Export as a module object
+  window.secureNoteUtils = {
+    encryptText,
+    decryptText,
+    generateUniqueId,
+    formatTimestamp,
+    sanitizeHtml,
+    truncateText,
+    validateNoteContent,
+    validateDomain,
+    rateLimiter,
+  };
+}
