@@ -49,11 +49,13 @@ const injectStyles = () => {
       transition: box-shadow 0.2s, transform 0.2s;
       outline: none;
     }
+
     .secure-note-fab:hover, .secure-note-fab:focus {
       box-shadow: var(--shadow-fab-hover);
       transform: scale(1.08);
       background: var(--gradient-fab-hover);
     }
+
     .secure-note-injected-modal {
       position: fixed;
       top: 50%;
@@ -73,6 +75,7 @@ const injectStyles = () => {
       animation: modalFadeIn 0.25s cubic-bezier(.4,0,.2,1) forwards;
       border: 1px solid var(--color-gray-border);
     }
+
     .secure-note-modal-header {
       padding: 18px 24px;
       background: var(--gradient-modal-header);
@@ -85,6 +88,7 @@ const injectStyles = () => {
       align-items: center;
       letter-spacing: 0.5px;
     }
+
     .secure-note-close {
       background: none;
       border: none;
@@ -95,10 +99,12 @@ const injectStyles = () => {
       padding: 0 4px;
       border-radius: 50%;
     }
+
     .secure-note-close:hover, .secure-note-close:focus {
       color: var(--color-blue-primary);
       background: var(--color-blue-bg);
     }
+
     .secure-note-modal-body {
       padding: 20px 24px 18px 24px;
       display: flex;
@@ -108,11 +114,13 @@ const injectStyles = () => {
       overflow-y: auto;
       background: var(--color-gray-light);
     }
+
     .secure-note-list {
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
+
     .secure-note-note {
       background: var(--color-white);
       border-radius: 10px;
@@ -125,10 +133,12 @@ const injectStyles = () => {
       position: relative;
       transition: box-shadow 0.2s;
     }
+
     .secure-note-note:hover {
       box-shadow: var(--shadow-button-focus);
       border-color: var(--color-blue-lighter);
     }
+
     .secure-note-date {
       font-size: 12px;
       color: var(--color-gray-muted);
@@ -136,6 +146,7 @@ const injectStyles = () => {
       margin-bottom: 2px;
       letter-spacing: 0.2px;
     }
+
     .secure-note-content {
       padding: 0;
       border: none;
@@ -149,14 +160,17 @@ const injectStyles = () => {
       outline: none;
       word-break: break-word;
     }
+
     .secure-note-content:hover, .secure-note-content:focus {
       background: var(--color-blue-bg);
     }
+
     .secure-note-actions {
       display: flex;
       gap: 8px;
       margin-top: 6px;
     }
+
     .secure-note-btn {
       background: var(--gradient-button-primary);
       color: var(--color-white);
@@ -171,24 +185,30 @@ const injectStyles = () => {
       box-shadow: var(--shadow-textarea-hover);
       outline: none;
     }
+
     .secure-note-btn:hover, .secure-note-btn:focus {
       background: var(--gradient-button-primary-hover);
       transform: scale(1.05);
     }
+
     .secure-note-btn.delete {
       background: var(--gradient-button-danger);
       color: var(--color-white);
     }
+
     .secure-note-btn.delete:hover, .secure-note-btn.delete:focus {
       background: var(--gradient-button-danger-hover);
     }
+
     .secure-note-btn.copy {
       background: var(--gradient-button-success);
       color: var(--color-white);
     }
+
     .secure-note-btn.copy:hover, .secure-note-btn.copy:focus {
       background: var(--gradient-button-success-hover);
     }
+
     .secure-note-textarea {
       width: 100%;
       min-height: 70px;
@@ -204,10 +224,12 @@ const injectStyles = () => {
       color: var(--color-text-dark);
       outline: none;
     }
+
     .secure-note-textarea:focus {
       border-color: var(--color-blue-primary);
       box-shadow: var(--shadow-outline-focus);
     }
+
     .secure-note-empty {
       text-align: center;
       color: var(--color-gray-muted);
@@ -216,6 +238,7 @@ const injectStyles = () => {
       font-style: italic;
       letter-spacing: 0.2px;
     }
+
     .secure-note-tooltip {
       position: absolute;
       top: -32px;
@@ -233,13 +256,16 @@ const injectStyles = () => {
       z-index: 2;
       white-space: nowrap;
     }
+
     .secure-note-note.show-tooltip .secure-note-tooltip {
       opacity: 1;
     }
+
     @keyframes modalFadeIn {
       from { opacity: 0; transform: translate(-50%, -45%) scale(0.95); }
       to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     }
+
     @media (max-width: 600px) {
       .secure-note-injected-modal {
         width: 98vw;
@@ -248,6 +274,7 @@ const injectStyles = () => {
         border-radius: 12px;
         padding: 0;
       }
+        
       .secure-note-modal-header, .secure-note-modal-body {
         padding-left: 12px;
         padding-right: 12px;
