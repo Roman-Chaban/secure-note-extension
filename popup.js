@@ -1,21 +1,21 @@
 // DOM elements for UI interaction
-const domainNameElement = document.getElementById("domainName");
-const notesListElement = document.getElementById("notesList");
-const addNoteButton = document.getElementById("addNoteBtn");
-const noteInputElement = document.getElementById("noteInput");
-const searchInputElement = document.getElementById("searchInput");
-const exportButtonElement = document.getElementById("exportBtn");
+const $domainNameLabel = document.getElementById("domainName");
+const $notesContainer = document.getElementById("notesList");
+const $addNoteButton = document.getElementById("addNoteBtn");
+const $noteInputField = document.getElementById("noteInput");
+const $searchInputField = document.getElementById("searchInput");
+const $exportNotesButton = document.getElementById("exportBtn");
 
 // Stores the currently active domain name and all notes
-let activeDomainName = "";
-let allNotes = [];
+let currentDomain = "";
+let domainNotesCache = [];
 
 /**
  * Wraps async functions to handle errors gracefully.
  * @param {Function} asyncFunction - The async function to wrap.
  * @returns {Function}
  */
-const withAsyncErrorHandling =
+const handleAsyncErrors =
   (asyncFunction) =>
   (...args) =>
     asyncFunction(...args).catch(console.error);
@@ -23,7 +23,7 @@ const withAsyncErrorHandling =
 /**
  * Loads the current tab's domain and renders its notes.
  */
-const loadActiveDomain = async () => {
+const initializeDomainNotes = async () => {
   try {
     const [activeTab] = await chrome.tabs.query({
       active: true,
@@ -31,12 +31,12 @@ const loadActiveDomain = async () => {
     });
     if (!activeTab?.url) throw new Error("Active tab URL not found");
     const urlObject = new URL(activeTab.url);
-    activeDomainName = urlObject.hostname;
-    domainNameElement.textContent = activeDomainName;
-    await renderDomainNotes();
+    currentDomain = urlObject.hostname;
+    $domainNameLabel.textContent = currentDomain;
+    await renderNotesForDomain();
   } catch (error) {
-    domainNameElement.textContent = "Domain unavailable";
-    notesListElement.textContent = "Failed to load notes.";
+    $domainNameLabel.textContent = "Domain unavailable";
+    $notesContainer.textContent = "Failed to load notes.";
     console.error(error);
   }
 };
@@ -45,12 +45,12 @@ const loadActiveDomain = async () => {
  * Retrieves notes for the current domain from storage.
  * @returns {Promise<Array>}
  */
-const fetchNotesForDomain = async () => {
+const getNotesFromStorage = async () => {
   const { notesByDomain = {} } = await chrome.storage.local.get(
     "notesByDomain"
   );
-  return Array.isArray(notesByDomain[activeDomainName])
-    ? notesByDomain[activeDomainName]
+  return Array.isArray(notesByDomain[currentDomain])
+    ? notesByDomain[currentDomain]
     : [];
 };
 
@@ -58,15 +58,15 @@ const fetchNotesForDomain = async () => {
  * Saves a new note for the current domain.
  * @param {Object} note - The note object to save.
  */
-const storeNoteForDomain = async (note) => {
+const saveNoteToStorage = async (note) => {
   const { notesByDomain = {} } = await chrome.storage.local.get(
     "notesByDomain"
   );
-  const domainNotes = Array.isArray(notesByDomain[activeDomainName])
-    ? notesByDomain[activeDomainName]
+  const notes = Array.isArray(notesByDomain[currentDomain])
+    ? notesByDomain[currentDomain]
     : [];
-  domainNotes.unshift(note);
-  notesByDomain[activeDomainName] = domainNotes;
+  notes.unshift(note);
+  notesByDomain[currentDomain] = notes;
   await chrome.storage.local.set({ notesByDomain });
 };
 
@@ -75,18 +75,18 @@ const storeNoteForDomain = async (note) => {
  * @param {string} noteId
  * @param {string} newContent
  */
-const updateNoteForDomain = async (noteId, newContent) => {
+const updateNoteInStorage = async (noteId, newContent) => {
   const { notesByDomain = {} } = await chrome.storage.local.get(
     "notesByDomain"
   );
-  const notes = Array.isArray(notesByDomain[activeDomainName])
-    ? notesByDomain[activeDomainName]
+  const notes = Array.isArray(notesByDomain[currentDomain])
+    ? notesByDomain[currentDomain]
     : [];
   const noteIndex = notes.findIndex((n) => n.id === noteId);
   if (noteIndex !== -1) {
     notes[noteIndex].content = encodeNoteContent(newContent);
     notes[noteIndex].ts = Date.now();
-    notesByDomain[activeDomainName] = notes;
+    notesByDomain[currentDomain] = notes;
     await chrome.storage.local.set({ notesByDomain });
   }
 };
@@ -116,7 +116,7 @@ const decodeNoteContent = (encodedText) => {
  * Generates a unique identifier for each note.
  * @returns {string}
  */
-const generateUniqueNoteId = () => {
+const generateNoteId = () => {
   const randomValues = crypto.getRandomValues(new Uint32Array(2));
   return `${Date.now().toString(36)}-${randomValues[0].toString(
     16
@@ -128,30 +128,30 @@ const generateUniqueNoteId = () => {
  * @param {number} timestamp
  * @returns {string}
  */
-const formatNoteTimestamp = (timestamp) => new Date(timestamp).toLocaleString();
+const formatTimestamp = (timestamp) => new Date(timestamp).toLocaleString();
 
 /**
  * Renders all notes for the current domain in the UI.
  */
-const renderDomainNotes = async () => {
-  const notes = await fetchNotesForDomain();
-  allNotes = notes; // Store all notes for search functionality
-  displayNotes(notes);
+const renderNotesForDomain = async () => {
+  const notes = await getNotesFromStorage();
+  domainNotesCache = notes; // Store all notes for search functionality
+  renderNotesList(notes);
 };
 
 /**
  * Displays notes in the UI (used by both render and filter functions)
  */
-const displayNotes = (notes) => {
-  notesListElement.innerHTML = "";
+const renderNotesList = (notes) => {
+  $notesContainer.innerHTML = "";
 
   if (notes.length === 0) {
     const emptyState = document.createElement("div");
     emptyState.className = "empty-state";
-    emptyState.textContent = searchInputElement?.value?.trim()
+    emptyState.textContent = $searchInputField?.value?.trim()
       ? "No notes match your search."
       : "No notes yet. Add your first note!";
-    notesListElement.appendChild(emptyState);
+    $notesContainer.appendChild(emptyState);
     return;
   }
 
@@ -163,150 +163,150 @@ const displayNotes = (notes) => {
     const noteHeader = document.createElement("div");
     noteHeader.className = "note-header";
 
-    const timestamp = document.createElement("div");
-    timestamp.className = "note-timestamp";
-    timestamp.textContent = formatNoteTimestamp(note.ts);
+    const noteTimestamp = document.createElement("div");
+    noteTimestamp.className = "note-timestamp";
+    noteTimestamp.textContent = formatTimestamp(note.ts);
 
-    const deleteBtn = document.createElement("button");
-    deleteBtn.textContent = "Delete";
-    deleteBtn.className = "note-delete";
-    deleteBtn.addEventListener(
+    const deleteNoteButton = document.createElement("button");
+    deleteNoteButton.textContent = "Delete";
+    deleteNoteButton.className = "note-delete";
+    deleteNoteButton.addEventListener(
       "click",
-      withAsyncErrorHandling(async () => {
+      handleAsyncErrors(async () => {
         if (!confirm("Delete this note?")) return;
         const { notesByDomain = {} } = await chrome.storage.local.get(
           "notesByDomain"
         );
-        notesByDomain[activeDomainName] = (
-          notesByDomain[activeDomainName] || []
+        notesByDomain[currentDomain] = (
+          notesByDomain[currentDomain] || []
         ).filter((existingNote) => existingNote.id !== note.id);
         await chrome.storage.local.set({ notesByDomain });
-        await renderDomainNotes();
+        await renderNotesForDomain();
       })
     );
 
-    noteHeader.appendChild(timestamp);
-    noteHeader.appendChild(deleteBtn);
+    noteHeader.appendChild(noteTimestamp);
+    noteHeader.appendChild(deleteNoteButton);
 
     // Note content
-    const content = document.createElement("div");
-    content.className = "note-content";
-    content.textContent = decodeNoteContent(note.content);
-    content.style.cursor = "pointer";
-    content.title = "Click to edit";
+    const noteContent = document.createElement("div");
+    noteContent.className = "note-content";
+    noteContent.textContent = decodeNoteContent(note.content);
+    noteContent.style.cursor = "pointer";
+    noteContent.title = "Click to edit";
 
     // Edit functionality
-    content.addEventListener("click", () => {
-      const textarea = document.createElement("textarea");
-      textarea.className = "note-textarea";
-      textarea.value = decodeNoteContent(note.content);
+    noteContent.addEventListener("click", () => {
+      const noteTextarea = document.createElement("textarea");
+      noteTextarea.className = "note-textarea";
+      noteTextarea.value = decodeNoteContent(note.content);
 
-      const saveBtn = document.createElement("button");
-      saveBtn.textContent = "Save";
-      saveBtn.className = "add-note-btn";
-      saveBtn.style.marginTop = "8px";
+      const saveNoteButton = document.createElement("button");
+      saveNoteButton.textContent = "Save";
+      saveNoteButton.className = "add-note-btn";
+      saveNoteButton.style.marginTop = "8px";
 
-      saveBtn.addEventListener(
+      saveNoteButton.addEventListener(
         "click",
-        withAsyncErrorHandling(async () => {
-          const newContent = textarea.value.trim();
+        handleAsyncErrors(async () => {
+          const newContent = noteTextarea.value.trim();
           if (!newContent) {
             alert("Note cannot be empty.");
             return;
           }
-          await updateNoteForDomain(note.id, newContent);
-          await renderDomainNotes();
+          await updateNoteInStorage(note.id, newContent);
+          await renderNotesForDomain();
         })
       );
 
-      noteItem.replaceChild(textarea, content);
-      noteItem.appendChild(saveBtn);
+      noteItem.replaceChild(noteTextarea, noteContent);
+      noteItem.appendChild(saveNoteButton);
     });
 
     noteItem.appendChild(noteHeader);
-    noteItem.appendChild(content);
-    notesListElement.appendChild(noteItem);
+    noteItem.appendChild(noteContent);
+    $notesContainer.appendChild(noteItem);
   });
 };
 
 // Handles adding a new note via the UI
-addNoteButton.addEventListener(
+$addNoteButton.addEventListener(
   "click",
-  withAsyncErrorHandling(async () => {
-    const noteText = noteInputElement.value.trim();
+  handleAsyncErrors(async () => {
+    const noteText = $noteInputField.value.trim();
     if (!noteText) {
       alert("Please enter a note.");
       return;
     }
     const newNote = {
-      id: generateUniqueNoteId(),
+      id: generateNoteId(),
       ts: Date.now(),
       content: encodeNoteContent(noteText),
     };
-    await storeNoteForDomain(newNote);
-    noteInputElement.value = "";
-    addNoteButton.disabled = true; // Disable button after adding
-    await renderDomainNotes();
+    await saveNoteToStorage(newNote);
+    $noteInputField.value = "";
+    $addNoteButton.disabled = true; // Disable button after adding
+    await renderNotesForDomain();
   })
 );
 
 // Enable/disable add button based on input content
-noteInputElement.addEventListener("input", () => {
-  const hasContent = noteInputElement.value.trim().length > 0;
-  addNoteButton.disabled = !hasContent;
+$noteInputField.addEventListener("input", () => {
+  const hasContent = $noteInputField.value.trim().length > 0;
+  $addNoteButton.disabled = !hasContent;
 });
 
 // Enable add note on Enter key
-noteInputElement.addEventListener("keydown", (event) => {
+$noteInputField.addEventListener("keydown", (event) => {
   if (event.key === "Enter" && event.ctrlKey) {
     event.preventDefault();
-    if (!addNoteButton.disabled) {
-      addNoteButton.click();
+    if (!$addNoteButton.disabled) {
+      $addNoteButton.click();
     }
   }
 });
 
 // Search functionality
-searchInputElement?.addEventListener("input", (event) => {
+$searchInputField?.addEventListener("input", (event) => {
   const searchTerm = event.target.value.toLowerCase().trim();
 
   console.log("Search input changed:", searchTerm);
 
   if (!searchTerm) {
-    displayNotes(allNotes);
+    renderNotesList(domainNotesCache);
     return;
   }
 
-  const filteredNotes = allNotes.filter((note) => {
+  const filteredNotes = domainNotesCache.filter((note) => {
     const content = decodeNoteContent(note.content).toLowerCase();
-    const timestamp = formatNoteTimestamp(note.ts).toLowerCase();
+    const timestamp = formatTimestamp(note.ts).toLowerCase();
     return content.includes(searchTerm) || timestamp.includes(searchTerm);
   });
 
   console.log("Filtered notes count:", filteredNotes.length);
-  displayNotes(filteredNotes);
+  renderNotesList(filteredNotes);
 });
 
 // Export functionality
-exportButtonElement?.addEventListener(
+$exportNotesButton?.addEventListener(
   "click",
-  withAsyncErrorHandling(async (event) => {
+  handleAsyncErrors(async (event) => {
     event.preventDefault();
     event.stopPropagation();
 
     console.log("Export button clicked intentionally");
 
-    if (allNotes.length === 0) {
+    if (domainNotesCache.length === 0) {
       alert("No notes to export for this domain.");
       return;
     }
 
     const exportData = {
-      domain: activeDomainName,
+      domain: currentDomain,
       exportDate: new Date().toISOString(),
-      notes: allNotes.map((note) => ({
+      notes: domainNotesCache.map((note) => ({
         content: decodeNoteContent(note.content),
-        timestamp: formatNoteTimestamp(note.ts),
+        timestamp: formatTimestamp(note.ts),
         id: note.id,
       })),
     };
@@ -318,7 +318,7 @@ exportButtonElement?.addEventListener(
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `secure-notes-${activeDomainName}-${
+    a.download = `secure-notes-${currentDomain}-${
       new Date().toISOString().split("T")[0]
     }.json`;
     document.body.appendChild(a);
@@ -329,4 +329,4 @@ exportButtonElement?.addEventListener(
 );
 
 // Initialize the popup by loading the current domain and its notes
-withAsyncErrorHandling(loadActiveDomain)();
+handleAsyncErrors(initializeDomainNotes)();
