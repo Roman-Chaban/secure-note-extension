@@ -73,6 +73,50 @@
   --color-text-meta: #888;
   --color-text-btn: #fff;
 
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-indigo-500: #667eea;
+  --color-indigo-600: #5a67d8;
+  --color-indigo-700: #4338ca;
+  --color-purple-600: #764ba2;
+  --color-purple-700: #6b46c1;
+  --color-blue-50: #f1f5f9;
+  --color-blue-400: #4facfe;
+  --color-cyan-400: #00f2fe;
+  --color-pink-400: #f093fb;
+  --color-pink-500: #f472b6;
+  --color-red-50: #fef2f2;
+  --color-red-100: #fee2e2;
+  --color-red-300: #fecaca;
+  --color-red-500: #f5576c;
+  --color-red-600: #dc2626;
+  --color-white: #ffffff;
+  --color-white-alpha-25: rgba(255, 255, 255, 0.25);
+  --color-white-alpha-20: rgba(255, 255, 255, 0.2);
+  --color-white-alpha-18: rgba(255, 255, 255, 0.18);
+  --color-white-alpha-10: rgba(255, 255, 255, 0.1);
+  --color-white-alpha-95: rgba(255, 255, 255, 0.95);
+  --color-black-alpha-12: rgba(0, 0, 0, 0.12);
+  --color-indigo-alpha-10: rgba(102, 126, 234, 0.1);
+
+  /* Gradient combinations */
+  --gradient-disabled: linear-gradient(135deg, var(--color-gray-400) 0%, var(--color-gray-500) 100%);
+  --gradient-empty-state: linear-gradient(135deg, var(--color-bg) 0%, var(--color-blue-50) 100%);
+  --gradient-error-state: linear-gradient(135deg, var(--color-red-50) 0%, var(--color-red-100) 100%);
+  --gradient-scrollbar-border: 1px solid var(--color-white-alpha-20);
+  --gradient-main-background: linear-gradient(180deg, var(--color-white) 0%, var(--color-gray-50) 100%);
+  --gradient-export-btn: linear-gradient(135deg, var(--color-blue-400) 0%, var(--color-cyan-400) 100%);
+  --gradient-primary-btn: linear-gradient(135deg, var(--color-indigo-500) 0%, var(--color-purple-600) 100%);
+  --gradient-delete-btn: linear-gradient(135deg, var(--color-pink-400) 0%, var(--color-red-500) 100%);
+  --gradient-delete-btn-hover: linear-gradient(135deg, var(--color-pink-500) 0%, var(--color-red-600) 100%);
+  --gradient-scrollbar-thumb: linear-gradient(180deg, var(--color-indigo-500), var(--color-purple-600));
+  --gradient-scrollbar-thumb-hover: linear-gradient(180deg, var(--color-indigo-600), var(--color-purple-700));
+
   /* Fonts */
   --font-main: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   --font-weight-header: 600;
@@ -126,4 +170,91 @@
   --popup-height: 600px;
   --scrollbar-width: 8px;
   --scrollbar-radius: 4px;
+
+  /* Glass effects */
+  --glass-header-bg: rgba(255, 255, 255, 0.25);
+  --glass-backdrop-blur: blur(20px);
+  --glass-domain-bg: rgba(255, 255, 255, 0.2);
+  --glass-domain-border: 1px solid rgba(255, 255, 255, 0.1);
+  --glass-domain-blur: blur(10px);
+
+  /* Title and text shadows */
+    --text-shadow-popup-title: 0 1px 3px rgba(0, 0, 0, 0.12);
+
+  /* Additional shadows for styles.js */
+  --shadow-fab: 0 4px 16px rgba(0,0,0,0.18);
+  --shadow-fab-hover: 0 8px 32px rgba(0,0,0,0.22);
+  --shadow-modal-main: 0 12px 48px rgba(0,0,0,0.18);
+  --shadow-button-small: 0 2px 8px rgba(0,0,0,0.07);
+  --shadow-button-focus: 0 4px 16px rgba(0,119,255,0.08);
+  --shadow-textarea-hover: 0 1px 4px rgba(0,119,255,0.08);
+  --shadow-outline-focus: 0 0 0 2px rgba(0,119,255,0.12);
+
+  /* Additional colors for styles.js */
+  --color-blue-primary: #0077ff;
+  --color-blue-secondary: #00c6ff;
+  --color-blue-dark: #0055cc;
+  --color-blue-light: #0099cc;
+  --color-blue-lighter: #b3d6ff;
+  --color-blue-bg: #e3f0ff;
+  --color-gray-light: #f9fbfd;
+  --color-gray-border: #e3e8ee;
+  --color-gray-text: #6c7a89;
+  --color-gray-muted: #7a8ca3;
+  --color-text-dark: #1a2a3a;
+  --color-red-primary: #ff4d4f;
+  --color-red-secondary: #ffb199;
+  --color-red-dark: #d9001b;
+  --color-green-primary: #00c853;
+  --color-green-secondary: #b2ff59;
+  --color-green-dark: #009624;
+
+  /* Additional gradients for styles.js */
+  --gradient-fab-main: linear-gradient(135deg, var(--color-blue-primary) 0%, var(--color-blue-secondary) 100%);
+  --gradient-fab-hover: linear-gradient(135deg, var(--color-blue-dark) 0%, var(--color-blue-light) 100%);
+  --gradient-modal-header: linear-gradient(90deg, var(--color-blue-bg) 0%, var(--color-gray-light) 100%);
+  --gradient-button-primary: linear-gradient(90deg, var(--color-blue-primary) 0%, var(--color-blue-secondary) 100%);
+  --gradient-button-primary-hover: linear-gradient(90deg, var(--color-blue-dark) 0%, var(--color-blue-light) 100%);
+  --gradient-button-danger: linear-gradient(90deg, var(--color-red-primary) 0%, var(--color-red-secondary) 100%);
+  --gradient-button-danger-hover: linear-gradient(90deg, var(--color-red-dark) 0%, var(--color-red-secondary) 100%);
+  --gradient-button-success: linear-gradient(90deg, var(--color-green-primary) 0%, var(--color-green-secondary) 100%);
+  --gradient-button-success-hover: linear-gradient(90deg, var(--color-green-dark) 0%, var(--color-green-secondary) 100%);
+}
+  --color-domain-text: rgba(255, 255, 255, 0.95);
+
+  /* Popup spacing */
+  --popup-title-margin-bottom: 8px;
+  --domain-padding: 4px 12px;
+  --domain-border-radius: 24px;
+  --domain-max-width: 320px;
+
+  /* Main background gradients */
+  --popup-main-bg: linear-gradient(180deg, #ffffff 0%, var(--color-bg) 100%);
+
+  /* Focus and interaction effects */
+  --focus-shadow-color: rgba(102, 126, 234, 0.1);
+  --focus-box-shadow: 0 0 0 2px var(--focus-shadow-color);
+
+  /* Export button dimensions */
+  --export-btn-width: 32px;
+  --export-btn-height: 32px;
+
+  /* Textarea dimensions */
+  --textarea-min-height: 120px;
+
+  /* Note item effects */
+  --note-item-border-width: 4px;
+  --note-item-hover-translate: -2px;
+
+  /* Animation and transition timings */
+  --transition-all-fast: all 0.25s ease;
+  --transition-color: color 0.25s ease;
+  --transition-transform: transform 0.25s ease;
+
+  /* Z-index layers */
+  --z-index-dropdown: 1000;
+  --z-index-modal: 10000;
+  --z-index-tooltip: 10001;
+
+
 }
