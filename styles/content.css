@@ -1,0 +1,176 @@
+.secure-note-fab {
+  position: fixed;
+
+  :root {
+    --secure-fab-size: 64px;
+    --secure-fab-radius: 50%;
+    --secure-fab-bg: linear-gradient(135deg, #4f46e5 60%, #06b6d4 100%);
+    --secure-fab-color: #fff;
+    --secure-fab-font-size: 28px;
+    --secure-fab-shadow: 0 4px 16px rgba(79, 70, 229, 0.18);
+    --secure-fab-shadow-hover: 0 8px 32px rgba(79, 70, 229, 0.28);
+
+    --secure-modal-width: 340px;
+    --secure-modal-max-width: 96vw;
+    --secure-modal-height: 440px;
+    --secure-modal-radius: 16px;
+    --secure-modal-bg: #fff;
+    --secure-modal-shadow: 0 16px 48px rgba(2, 6, 23, 0.32);
+    --secure-modal-border: 1px solid #e5e7eb;
+
+    --secure-header-padding: 16px 18px;
+    --secure-header-bg: linear-gradient(90deg, #eef2ff 70%, #e0f2fe 100%);
+    --secure-header-border: 1px solid #e5e7eb;
+    --secure-header-font-weight: 600;
+    --secure-header-font-size: 1.08rem;
+    --secure-header-color: #3730a3;
+
+    --secure-body-padding: 14px 18px;
+    --secure-body-bg: #f8fafc;
+
+    --secure-textarea-radius: 8px;
+    --secure-textarea-border: 1px solid #c7d2fe;
+    --secure-textarea-font-size: 1rem;
+    --secure-textarea-bg: #fff;
+    --secure-textarea-color: #1e293b;
+    --secure-textarea-focus-border: #4f46e5;
+
+    --secure-btn-padding: 8px 16px;
+    --secure-btn-radius: 8px;
+    --secure-btn-bg: linear-gradient(90deg, #4f46e5 80%, #06b6d4 100%);
+    --secure-btn-bg-hover: linear-gradient(90deg, #4338ca 80%, #0ea5e9 100%);
+    --secure-btn-color: #fff;
+    --secure-btn-font-weight: 600;
+    --secure-btn-font-size: 1rem;
+    --secure-btn-shadow: 0 2px 8px rgba(79, 70, 229, 0.1);
+    --secure-btn-shadow-hover: 0 4px 16px rgba(79, 70, 229, 0.18);
+
+    --secure-close-bg: transparent;
+    --secure-close-color: #64748b;
+    --secure-close-color-hover: #1e293b;
+    --secure-close-bg-hover: #e0e7ff;
+    --secure-close-radius: 4px;
+    --secure-close-font-size: 1.2rem;
+    --secure-close-padding: 4px 8px;
+  }
+
+  bottom: 24px;
+  right: 24px;
+  width: var(--secure-fab-size);
+  height: var(--secure-fab-size);
+  border-radius: var(--secure-fab-radius);
+  background: var(--secure-fab-bg);
+  color: var(--secure-fab-color);
+  font-size: var(--secure-fab-font-size);
+  box-shadow: var(--secure-fab-shadow);
+  z-index: 2147483647;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.secure-note-fab:hover {
+  box-shadow: var(--secure-fab-shadow-hover);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.secure-note-injected-modal {
+  position: fixed;
+  bottom: 100px;
+  right: 24px;
+  width: var(--secure-modal-width);
+  max-width: var(--secure-modal-max-width);
+  height: var(--secure-modal-height);
+  background: var(--secure-modal-bg);
+  border-radius: var(--secure-modal-radius);
+  z-index: 2147483647;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--secure-modal-shadow);
+  border: var(--secure-modal-border);
+  overflow: hidden;
+  animation: modal-in 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.secure-note-modal-header {
+  padding: var(--secure-header-padding);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--secure-header-bg);
+  border-bottom: var(--secure-header-border);
+  font-weight: var(--secure-header-font-weight);
+  font-size: var(--secure-header-font-size);
+  color: var(--secure-header-color);
+}
+
+.secure-note-modal-body {
+  flex: 1;
+  padding: var(--secure-body-padding);
+  overflow-y: auto;
+  background: var(--secure-body-bg);
+}
+
+.secure-note-textarea {
+  width: 100%;
+  min-height: 80px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: var(--secure-textarea-radius);
+  border: var(--secure-textarea-border);
+  font-size: var(--secure-textarea-font-size);
+  resize: vertical;
+  background: var(--secure-textarea-bg);
+  color: var(--secure-textarea-color);
+  transition: border-color 0.2s;
+}
+.secure-note-textarea:focus {
+  border-color: var(--secure-textarea-focus-border);
+  outline: none;
+}
+
+.secure-note-btn {
+  padding: var(--secure-btn-padding);
+  border-radius: var(--secure-btn-radius);
+  background: var(--secure-btn-bg);
+  color: var(--secure-btn-color);
+  border: none;
+  cursor: pointer;
+  font-weight: var(--secure-btn-font-weight);
+  font-size: var(--secure-btn-font-size);
+  box-shadow: var(--secure-btn-shadow);
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.secure-note-btn:hover {
+  background: var(--secure-btn-bg-hover);
+  box-shadow: var(--secure-btn-shadow-hover);
+}
+
+.secure-note-close {
+  background: var(--secure-close-bg);
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: var(--secure-close-font-size);
+  color: var(--secure-close-color);
+  padding: var(--secure-close-padding);
+  border-radius: var(--secure-close-radius);
+  transition: background 0.2s, color 0.2s;
+}
+.secure-note-close:hover {
+  background: var(--secure-close-bg-hover);
+  color: var(--secure-close-color-hover);
+}
