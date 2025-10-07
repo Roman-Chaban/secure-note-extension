@@ -7,7 +7,7 @@ if (window.__secureNoteInjected) {
     const currentDomain = window.location.hostname;
     let modalElement = null;
 
-    // Inject styles using imported function
+    // Inject styles using imported function into styles.js
     if (typeof window.injectStyles === "function") {
       window.injectStyles();
     } else {
@@ -62,7 +62,8 @@ if (window.__secureNoteInjected) {
 
       addNoteButton.onclick = async () => {
         const noteText = noteInputTextarea.value.trim();
-        if (!noteText) return showTooltip(addNoteButton, "Please enter a note.");
+        if (!noteText)
+          return showTooltip(addNoteButton, "Please enter a note.");
         await saveNote(noteText);
         noteInputTextarea.value = "";
         await renderNotesList(notesContainer);
@@ -174,7 +175,7 @@ if (window.__secureNoteInjected) {
         contentElement.textContent = noteText;
         contentElement.tabIndex = 0;
 
-        // Edit on click
+        // Edit on button click
         contentElement.addEventListener("click", () => {
           const editTextarea = document.createElement("textarea");
           editTextarea.className = "secure-note-textarea";
@@ -209,7 +210,9 @@ if (window.__secureNoteInjected) {
           try {
             await navigator.clipboard.writeText(noteText);
             noteItemElement.classList.add("show-tooltip");
-            let tooltipElement = noteItemElement.querySelector(".secure-note-tooltip");
+            let tooltipElement = noteItemElement.querySelector(
+              ".secure-note-tooltip"
+            );
             if (!tooltipElement) {
               tooltipElement = document.createElement("div");
               tooltipElement.className = "secure-note-tooltip";
@@ -217,7 +220,10 @@ if (window.__secureNoteInjected) {
               noteItemElement.appendChild(tooltipElement);
             }
             tooltipElement.textContent = "Copied!";
-            setTimeout(() => noteItemElement.classList.remove("show-tooltip"), 1200);
+            setTimeout(
+              () => noteItemElement.classList.remove("show-tooltip"),
+              1200
+            );
           } catch {
             showTooltip(copyButton, "Copy failed");
           }
@@ -230,7 +236,9 @@ if (window.__secureNoteInjected) {
           if (!confirm("Delete this note?")) return;
           const storageData = await chrome.storage.local.get("notesByDomain");
           const notesByDomain = storageData.notesByDomain || {};
-          notesByDomain[currentDomain] = notesByDomain[currentDomain].filter((note) => note.id !== noteObject.id);
+          notesByDomain[currentDomain] = notesByDomain[currentDomain].filter(
+            (note) => note.id !== noteObject.id
+          );
           await chrome.storage.local.set({ notesByDomain });
           await renderNotesList(containerElement);
         };
