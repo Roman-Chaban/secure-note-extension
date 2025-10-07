@@ -105,17 +105,57 @@
   --color-indigo-alpha-10: rgba(102, 126, 234, 0.1);
 
   /* Gradient combinations */
-  --gradient-disabled: linear-gradient(135deg, var(--color-gray-400) 0%, var(--color-gray-500) 100%);
-  --gradient-empty-state: linear-gradient(135deg, var(--color-bg) 0%, var(--color-blue-50) 100%);
-  --gradient-error-state: linear-gradient(135deg, var(--color-red-50) 0%, var(--color-red-100) 100%);
+  --gradient-disabled: linear-gradient(
+    135deg,
+    var(--color-gray-400) 0%,
+    var(--color-gray-500) 100%
+  );
+  --gradient-empty-state: linear-gradient(
+    135deg,
+    var(--color-bg) 0%,
+    var(--color-blue-50) 100%
+  );
+  --gradient-error-state: linear-gradient(
+    135deg,
+    var(--color-red-50) 0%,
+    var(--color-red-100) 100%
+  );
   --gradient-scrollbar-border: 1px solid var(--color-white-alpha-20);
-  --gradient-main-background: linear-gradient(180deg, var(--color-white) 0%, var(--color-gray-50) 100%);
-  --gradient-export-btn: linear-gradient(135deg, var(--color-blue-400) 0%, var(--color-cyan-400) 100%);
-  --gradient-primary-btn: linear-gradient(135deg, var(--color-indigo-500) 0%, var(--color-purple-600) 100%);
-  --gradient-delete-btn: linear-gradient(135deg, var(--color-pink-400) 0%, var(--color-red-500) 100%);
-  --gradient-delete-btn-hover: linear-gradient(135deg, var(--color-pink-500) 0%, var(--color-red-600) 100%);
-  --gradient-scrollbar-thumb: linear-gradient(180deg, var(--color-indigo-500), var(--color-purple-600));
-  --gradient-scrollbar-thumb-hover: linear-gradient(180deg, var(--color-indigo-600), var(--color-purple-700));
+  --gradient-main-background: linear-gradient(
+    180deg,
+    var(--color-white) 0%,
+    var(--color-gray-50) 100%
+  );
+  --gradient-export-btn: linear-gradient(
+    135deg,
+    var(--color-blue-400) 0%,
+    var(--color-cyan-400) 100%
+  );
+  --gradient-primary-btn: linear-gradient(
+    135deg,
+    var(--color-indigo-500) 0%,
+    var(--color-purple-600) 100%
+  );
+  --gradient-delete-btn: linear-gradient(
+    135deg,
+    var(--color-pink-400) 0%,
+    var(--color-red-500) 100%
+  );
+  --gradient-delete-btn-hover: linear-gradient(
+    135deg,
+    var(--color-pink-500) 0%,
+    var(--color-red-600) 100%
+  );
+  --gradient-scrollbar-thumb: linear-gradient(
+    180deg,
+    var(--color-indigo-500),
+    var(--color-purple-600)
+  );
+  --gradient-scrollbar-thumb-hover: linear-gradient(
+    180deg,
+    var(--color-indigo-600),
+    var(--color-purple-700)
+  );
 
   /* Fonts */
   --font-main: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -179,16 +219,16 @@
   --glass-domain-blur: blur(10px);
 
   /* Title and text shadows */
-    --text-shadow-popup-title: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --text-shadow-popup-title: 0 1px 3px rgba(0, 0, 0, 0.12);
 
   /* Additional shadows for styles.js */
-  --shadow-fab: 0 4px 16px rgba(0,0,0,0.18);
-  --shadow-fab-hover: 0 8px 32px rgba(0,0,0,0.22);
-  --shadow-modal-main: 0 12px 48px rgba(0,0,0,0.18);
-  --shadow-button-small: 0 2px 8px rgba(0,0,0,0.07);
-  --shadow-button-focus: 0 4px 16px rgba(0,119,255,0.08);
-  --shadow-textarea-hover: 0 1px 4px rgba(0,119,255,0.08);
-  --shadow-outline-focus: 0 0 0 2px rgba(0,119,255,0.12);
+  --shadow-fab: 0 4px 16px rgba(0, 0, 0, 0.18);
+  --shadow-fab-hover: 0 8px 32px rgba(0, 0, 0, 0.22);
+  --shadow-modal-main: 0 12px 48px rgba(0, 0, 0, 0.18);
+  --shadow-button-small: 0 2px 8px rgba(0, 0, 0, 0.07);
+  --shadow-button-focus: 0 4px 16px rgba(0, 119, 255, 0.08);
+  --shadow-textarea-hover: 0 1px 4px rgba(0, 119, 255, 0.08);
+  --shadow-outline-focus: 0 0 0 2px rgba(0, 119, 255, 0.12);
 
   /* Additional colors for styles.js */
   --color-blue-primary: #0077ff;
@@ -210,16 +250,51 @@
   --color-green-dark: #009624;
 
   /* Additional gradients for styles.js */
-  --gradient-fab-main: linear-gradient(135deg, var(--color-blue-primary) 0%, var(--color-blue-secondary) 100%);
-  --gradient-fab-hover: linear-gradient(135deg, var(--color-blue-dark) 0%, var(--color-blue-light) 100%);
-  --gradient-modal-header: linear-gradient(90deg, var(--color-blue-bg) 0%, var(--color-gray-light) 100%);
-  --gradient-button-primary: linear-gradient(90deg, var(--color-blue-primary) 0%, var(--color-blue-secondary) 100%);
-  --gradient-button-primary-hover: linear-gradient(90deg, var(--color-blue-dark) 0%, var(--color-blue-light) 100%);
-  --gradient-button-danger: linear-gradient(90deg, var(--color-red-primary) 0%, var(--color-red-secondary) 100%);
-  --gradient-button-danger-hover: linear-gradient(90deg, var(--color-red-dark) 0%, var(--color-red-secondary) 100%);
-  --gradient-button-success: linear-gradient(90deg, var(--color-green-primary) 0%, var(--color-green-secondary) 100%);
-  --gradient-button-success-hover: linear-gradient(90deg, var(--color-green-dark) 0%, var(--color-green-secondary) 100%);
-}
+  --gradient-fab-main: linear-gradient(
+    135deg,
+    var(--color-blue-primary) 0%,
+    var(--color-blue-secondary) 100%
+  );
+  --gradient-fab-hover: linear-gradient(
+    135deg,
+    var(--color-blue-dark) 0%,
+    var(--color-blue-light) 100%
+  );
+  --gradient-modal-header: linear-gradient(
+    90deg,
+    var(--color-blue-bg) 0%,
+    var(--color-gray-light) 100%
+  );
+  --gradient-button-primary: linear-gradient(
+    90deg,
+    var(--color-blue-primary) 0%,
+    var(--color-blue-secondary) 100%
+  );
+  --gradient-button-primary-hover: linear-gradient(
+    90deg,
+    var(--color-blue-dark) 0%,
+    var(--color-blue-light) 100%
+  );
+  --gradient-button-danger: linear-gradient(
+    90deg,
+    var(--color-red-primary) 0%,
+    var(--color-red-secondary) 100%
+  );
+  --gradient-button-danger-hover: linear-gradient(
+    90deg,
+    var(--color-red-dark) 0%,
+    var(--color-red-secondary) 100%
+  );
+  --gradient-button-success: linear-gradient(
+    90deg,
+    var(--color-green-primary) 0%,
+    var(--color-green-secondary) 100%
+  );
+  --gradient-button-success-hover: linear-gradient(
+    90deg,
+    var(--color-green-dark) 0%,
+    var(--color-green-secondary) 100%
+  );
   --color-domain-text: rgba(255, 255, 255, 0.95);
 
   /* Popup spacing */
@@ -256,5 +331,39 @@
   --z-index-modal: 10000;
   --z-index-tooltip: 10001;
 
+  /* Additional alpha colors for rgba replacements */
+  --color-white-alpha-25: rgba(255, 255, 255, 0.25);
+  --color-white-alpha-18: rgba(255, 255, 255, 0.18);
+  --color-white-alpha-20: rgba(255, 255, 255, 0.2);
+  --color-white-alpha-95: rgba(255, 255, 255, 0.95);
+  --color-black-alpha-05: rgba(0, 0, 0, 0.05);
+  --color-black-alpha-12: rgba(0, 0, 0, 0.12);
+  --color-white-alpha-10-border: rgba(255, 255, 255, 0.1);
 
+  /* Additional color variables for remaining hardcoded values */
+  --color-indigo-600: #5a67d8;
+  --color-red-600: #dc2626;
+  --color-red-50: #fef2f2;
+  --color-red-100: #fee2e2;
+  --color-red-200: #fecaca;
+  --color-gray-50: #f9fafb;
+  --color-slate-100: #f1f5f9;
+  --color-red-500: #ef4444;
+
+  /* Additional gradients */
+  --gradient-light-bg: linear-gradient(
+    45deg,
+    var(--color-gray-50),
+    var(--color-white)
+  );
+  --gradient-secondary-btn: linear-gradient(
+    135deg,
+    var(--color-slate-50) 0%,
+    var(--color-slate-100) 100%
+  );
+  --gradient-error-bg: linear-gradient(
+    135deg,
+    var(--color-red-50) 0%,
+    var(--color-red-100) 100%
+  );
 }
