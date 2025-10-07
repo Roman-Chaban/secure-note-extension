@@ -1,4 +1,3 @@
-// Base64-encode a string, handling Unicode safely
 const encodeTextBase64 = (plainText) => {
   try {
     // Convert to UTF-8 and encode to base64
