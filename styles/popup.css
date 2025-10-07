@@ -1,52 +1,4 @@
-:root {
-  --color-bg: #f9fafb;
-  --color-bg-footer: #f5f5f5;
-  --color-bg-note: #fff;
-  --color-bg-btn: #4f46e5;
-  --color-bg-btn-hover: #3730a3;
-  --color-bg-delete: #ef4444;
-  --color-bg-delete-hover: #dc2626;
-  --color-gradient-header: linear-gradient(90deg, #4f46e5, #06b6d4);
-
-  --color-text-main: #111;
-  --color-text-meta: #888;
-  --color-text-btn: #fff;
-
-  --border-radius-main: 10px;
-  --border-radius-note: 8px;
-  --border-radius-btn: 6px;
-  --border-radius-header-btn: 4px;
-
-  --shadow-main: 0 4px 12px rgba(0, 0, 0, 0.15);
-  --shadow-note: 0 2px 6px rgba(0, 0, 0, 0.05);
-
-  --font-main: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  --font-size-header: 14px;
-  --font-size-meta: 11px;
-  --font-size-preview: 13px;
-  --font-size-btn: 12px;
-  --font-size-textarea: 13px;
-
-  --space-header-y: 10px;
-  --space-header-x: 12px;
-  --space-main: 10px;
-  --space-note-y: 8px;
-  --space-note-x: 10px;
-  --space-footer: 8px;
-  --space-gap-main: 8px;
-  --space-gap-footer: 6px;
-  --space-btn-y: 6px;
-  --space-btn-x: 12px;
-  --space-delete-btn-y: 4px;
-  --space-delete-btn-x: 8px;
-  --space-header-btn-y: 2px;
-  --space-header-btn-x: 6px;
-
-  --popup-width: 400px;
-  --popup-height: 400px;
-  --scrollbar-width: 6px;
-  --scrollbar-radius: 3px;
-}
+@import url("variables.css");
 
 body {
   margin: 0;
@@ -68,7 +20,7 @@ body {
   padding: var(--space-header-y) var(--space-header-x);
   background: var(--color-gradient-header);
   color: var(--color-text-btn);
-  font-weight: 600;
+  font-weight: var(--font-weight-header);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -82,7 +34,7 @@ body {
   border-radius: var(--border-radius-header-btn);
   padding: var(--space-header-btn-y) var(--space-header-btn-x);
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: var(--transition-header-btn);
 }
 
 .popup-header button:hover {
@@ -110,17 +62,17 @@ body {
 .secure-note-item .meta {
   font-size: var(--font-size-meta);
   color: var(--color-text-meta);
-  margin-bottom: 4px;
+  margin-bottom: var(--margin-meta-bottom);
 }
 
 .secure-note-item .preview {
   font-size: var(--font-size-preview);
   color: var(--color-text-main);
-  word-break: break-word;
+  word-break: var(--word-break-preview);
 }
 
 .secure-note-item button {
-  margin-top: 6px;
+  margin-top: var(--margin-secure-note-btn-top);
   padding: var(--space-delete-btn-y) var(--space-delete-btn-x);
   background: var(--color-bg-delete);
   color: var(--color-text-btn);
@@ -128,7 +80,7 @@ body {
   border-radius: var(--border-radius-btn);
   font-size: var(--font-size-btn);
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: var(--transition-delete-btn);
 }
 
 .secure-note-item button:hover {
@@ -146,15 +98,15 @@ body {
 .secure-note-textarea {
   width: 100%;
   border-radius: var(--border-radius-note);
-  border: 1px solid #ccc;
-  padding: 6px;
+  border: 1px solid var(--color-border);
+  padding: var(--padding-secure-note-textarea);
   font-size: var(--font-size-textarea);
-  resize: vertical;
+  resize: var(--resize-secure-note-textarea);
 }
 
 .footer-actions {
-  display: flex;
-  justify-content: flex-end;
+  display: var(--display-footer-actions);
+  justify-content: var(--justify-footer-actions);
 }
 
 .secure-note-btn {
@@ -164,13 +116,13 @@ body {
   color: var(--color-text-btn);
   border-radius: var(--border-radius-btn);
   cursor: pointer;
-  font-weight: 500;
-  transition: background 0.2s ease, transform 0.1s ease;
+  font-weight: var(--font-weight-btn);
+  transition: var(--transition-btn);
 }
 
 .secure-note-btn:hover {
   background-color: var(--color-bg-btn-hover);
-  transform: translateY(-1px);
+  transform: var(--transform-btn-hover);
 }
 
 .popup-main::-webkit-scrollbar {
@@ -178,10 +130,10 @@ body {
 }
 
 .popup-main::-webkit-scrollbar-thumb {
-  background: rgba(100, 100, 100, 0.3);
+  background: var(--color-scrollbar-thumb);
   border-radius: var(--scrollbar-radius);
 }
 
 .popup-main::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--color-scrollbar-track);
 }

@@ -1,0 +1,130 @@
+:root {
+  /* FAB variables */
+  --secure-fab-size: 64px;
+  --secure-fab-radius: 50%;
+  --secure-fab-bg: linear-gradient(135deg, #4f46e5 60%, #06b6d4 100%);
+  --secure-fab-color: #fff;
+  --secure-fab-font-size: 28px;
+  --secure-fab-shadow: 0 4px 16px rgba(79, 70, 229, 0.18);
+  --secure-fab-shadow-hover: 0 8px 32px rgba(79, 70, 229, 0.28);
+
+  /* Modal variables */
+  --secure-modal-width: 340px;
+  --secure-modal-max-width: 96vw;
+  --secure-modal-height: 440px;
+  --secure-modal-radius: 16px;
+  --secure-modal-bg: #fff;
+  --secure-modal-shadow: 0 16px 48px rgba(2, 6, 23, 0.32);
+  --secure-modal-border: 1px solid #e5e7eb;
+
+  /* Header */
+  --secure-header-padding: 16px 18px;
+  --secure-header-bg: linear-gradient(90deg, #eef2ff 70%, #e0f2fe 100%);
+  --secure-header-border: 1px solid #e5e7eb;
+  --secure-header-font-weight: 600;
+  --secure-header-font-size: 1.08rem;
+  --secure-header-color: #3730a3;
+
+  /* Body */
+  --secure-body-padding: 14px 18px;
+  --secure-body-bg: #f8fafc;
+
+  /* Textarea */
+  --secure-textarea-radius: 8px;
+  --secure-textarea-border: 1px solid #c7d2fe;
+  --secure-textarea-font-size: 1rem;
+  --secure-textarea-bg: #fff;
+  --secure-textarea-color: #1e293b;
+  --secure-textarea-focus-border: #4f46e5;
+
+  /* Buttons */
+  --secure-btn-padding: 8px 16px;
+  --secure-btn-radius: 8px;
+  --secure-btn-bg: linear-gradient(90deg, #4f46e5 80%, #06b6d4 100%);
+  --secure-btn-bg-hover: linear-gradient(90deg, #4338ca 80%, #0ea5e9 100%);
+  --secure-btn-color: #fff;
+  --secure-btn-font-weight: 600;
+  --secure-btn-font-size: 1rem;
+  --secure-btn-shadow: 0 2px 8px rgba(79, 70, 229, 0.1);
+  --secure-btn-shadow-hover: 0 4px 16px rgba(79, 70, 229, 0.18);
+
+  /* Close button */
+  --secure-close-bg: transparent;
+  --secure-close-color: #64748b;
+  --secure-close-color-hover: #1e293b;
+  --secure-close-bg-hover: #e0e7ff;
+  --secure-close-radius: 4px;
+  --secure-close-font-size: 1.2rem;
+  --secure-close-padding: 4px 8px;
+
+  /* General Colors */
+  --color-border: #ccc;
+  --color-scrollbar-thumb: rgba(100, 100, 100, 0.3);
+  --color-scrollbar-track: rgba(0, 0, 0, 0.05);
+  --color-bg: #f9fafb;
+  --color-bg-footer: #f5f5f5;
+  --color-bg-note: #fff;
+  --color-bg-btn: #4f46e5;
+  --color-bg-btn-hover: #3730a3;
+  --color-bg-delete: #ef4444;
+  --color-bg-delete-hover: #dc2626;
+  --color-gradient-header: linear-gradient(90deg, #4f46e5, #06b6d4);
+  --color-text-main: #111;
+  --color-text-meta: #888;
+  --color-text-btn: #fff;
+
+  /* Fonts */
+  --font-main: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --font-weight-header: 600;
+  --font-weight-btn: 500;
+  --font-size-header: 14px;
+  --font-size-meta: 11px;
+  --font-size-preview: 13px;
+  --font-size-btn: 12px;
+  --font-size-textarea: 13px;
+
+  /* Spacing */
+  --margin-secure-note-btn-top: 6px;
+  --padding-secure-note-textarea: 6px;
+  --margin-meta-bottom: 4px;
+  --space-header-y: 10px;
+  --space-header-x: 12px;
+  --space-main: 10px;
+  --space-note-y: 8px;
+  --space-note-x: 10px;
+  --space-footer: 8px;
+  --space-gap-main: 8px;
+  --space-gap-footer: 6px;
+  --space-btn-y: 6px;
+  --space-btn-x: 12px;
+  --space-delete-btn-y: 4px;
+  --space-delete-btn-x: 8px;
+  --space-header-btn-y: 2px;
+  --space-header-btn-x: 6px;
+
+  /* Border radius */
+  --border-radius-main: 10px;
+  --border-radius-note: 8px;
+  --border-radius-btn: 6px;
+  --border-radius-header-btn: 4px;
+
+  /* Shadows */
+  --shadow-main: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-note: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+  /* Other */
+  --resize-secure-note-textarea: vertical;
+  --display-footer-actions: flex;
+  --justify-footer-actions: flex-end;
+  --word-break-preview: break-word;
+  --transition-btn: background 0.2s ease, transform 0.1s ease;
+  --transition-header-btn: background 0.2s ease;
+  --transition-delete-btn: background 0.2s ease;
+  --transform-btn-hover: translateY(-1px);
+
+  /* Popup */
+  --popup-width: 400px;
+  --popup-height: 400px;
+  --scrollbar-width: 6px;
+  --scrollbar-radius: 3px;
+}

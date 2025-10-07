@@ -1,58 +1,7 @@
+@import url("variables.css");
+
 .secure-note-fab {
   position: fixed;
-
-  :root {
-    --secure-fab-size: 64px;
-    --secure-fab-radius: 50%;
-    --secure-fab-bg: linear-gradient(135deg, #4f46e5 60%, #06b6d4 100%);
-    --secure-fab-color: #fff;
-    --secure-fab-font-size: 28px;
-    --secure-fab-shadow: 0 4px 16px rgba(79, 70, 229, 0.18);
-    --secure-fab-shadow-hover: 0 8px 32px rgba(79, 70, 229, 0.28);
-
-    --secure-modal-width: 340px;
-    --secure-modal-max-width: 96vw;
-    --secure-modal-height: 440px;
-    --secure-modal-radius: 16px;
-    --secure-modal-bg: #fff;
-    --secure-modal-shadow: 0 16px 48px rgba(2, 6, 23, 0.32);
-    --secure-modal-border: 1px solid #e5e7eb;
-
-    --secure-header-padding: 16px 18px;
-    --secure-header-bg: linear-gradient(90deg, #eef2ff 70%, #e0f2fe 100%);
-    --secure-header-border: 1px solid #e5e7eb;
-    --secure-header-font-weight: 600;
-    --secure-header-font-size: 1.08rem;
-    --secure-header-color: #3730a3;
-
-    --secure-body-padding: 14px 18px;
-    --secure-body-bg: #f8fafc;
-
-    --secure-textarea-radius: 8px;
-    --secure-textarea-border: 1px solid #c7d2fe;
-    --secure-textarea-font-size: 1rem;
-    --secure-textarea-bg: #fff;
-    --secure-textarea-color: #1e293b;
-    --secure-textarea-focus-border: #4f46e5;
-
-    --secure-btn-padding: 8px 16px;
-    --secure-btn-radius: 8px;
-    --secure-btn-bg: linear-gradient(90deg, #4f46e5 80%, #06b6d4 100%);
-    --secure-btn-bg-hover: linear-gradient(90deg, #4338ca 80%, #0ea5e9 100%);
-    --secure-btn-color: #fff;
-    --secure-btn-font-weight: 600;
-    --secure-btn-font-size: 1rem;
-    --secure-btn-shadow: 0 2px 8px rgba(79, 70, 229, 0.1);
-    --secure-btn-shadow-hover: 0 4px 16px rgba(79, 70, 229, 0.18);
-
-    --secure-close-bg: transparent;
-    --secure-close-color: #64748b;
-    --secure-close-color-hover: #1e293b;
-    --secure-close-bg-hover: #e0e7ff;
-    --secure-close-radius: 4px;
-    --secure-close-font-size: 1.2rem;
-    --secure-close-padding: 4px 8px;
-  }
 
   bottom: 24px;
   right: 24px;
